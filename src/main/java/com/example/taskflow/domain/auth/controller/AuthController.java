@@ -1,5 +1,7 @@
 package com.example.taskflow.domain.auth.controller;
 
+import com.example.taskflow.domain.auth.dto.LoginRequest;
+import com.example.taskflow.domain.auth.dto.LoginResponse;
 import com.example.taskflow.domain.auth.dto.RegisterRequest;
 import com.example.taskflow.domain.auth.dto.RegisterResponse;
 import com.example.taskflow.domain.auth.service.AuthService;
@@ -21,5 +23,10 @@ public class AuthController {
     @PostMapping("/auth/register")
     public ResponseEntity<RegisterResponse> register(@RequestBody RegisterRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(request));
+    }
+
+    @PostMapping("/auth/login")
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
+        return  ResponseEntity.ok(authService.login(request));
     }
 }

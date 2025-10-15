@@ -1,5 +1,7 @@
 package com.example.taskflow.domain.auth.service;
 
+import com.example.taskflow.domain.auth.dto.LoginRequest;
+import com.example.taskflow.domain.auth.dto.LoginResponse;
 import com.example.taskflow.domain.auth.dto.RegisterRequest;
 import com.example.taskflow.domain.auth.dto.RegisterResponse;
 import com.example.taskflow.domain.user.entity.User;
@@ -26,5 +28,18 @@ public class AuthService {
         User saveUser = userRepository.save(newUser);
 
         return new RegisterResponse(saveUser.getEmail(), saveUser.getName());
+    }
+
+    public LoginResponse login(LoginRequest request) {
+
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(()-> new RuntimeException()); // todo: 커스텀 에외처리 기능 추가후 예외처리 예정
+
+        if (!request.getPassword().equals(user.getPassword())) {
+           //todo : 비밀번호 틀릴때 예외처리
+           throw new RuntimeException();
+        }
+
+        return new LoginResponse(user.getEmail(), user.getName());
     }
 }
