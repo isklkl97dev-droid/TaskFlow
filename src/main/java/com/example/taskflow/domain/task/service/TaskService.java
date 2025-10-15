@@ -27,4 +27,12 @@ public class TaskService {
         return new TaskResponse(saveTask.getName(), saveTask.getTitle()
                 , saveTask.getContent(), saveTask.getStartDate(), saveTask.getDueDate());
     }
+
+    public TaskResponse get(Long id) {
+
+        Task task = taskRepository.findById(id)
+                .orElseThrow(()-> new RuntimeException());
+
+        return new TaskResponse(null, task.getTitle(), task.getContent(), task.getStartDate(), task.getDueDate());
+    }
 }
