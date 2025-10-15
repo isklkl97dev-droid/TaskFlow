@@ -38,4 +38,16 @@ public class Task {
         this.startDate = startDate;
         this.dueDate = dueDate;
     }
+
+    public void updateTask(
+            String title,
+            String content,
+            LocalDate startDate,
+            LocalDate dueDate
+    ) {
+        this.title = title;
+        this.content = content;
+        this.startDate = startDate;
+        this.dueDate = dueDate;
+    }
 }

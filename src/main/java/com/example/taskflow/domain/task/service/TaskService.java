@@ -2,6 +2,7 @@ package com.example.taskflow.domain.task.service;
 
 import com.example.taskflow.domain.task.dto.TaskRequest;
 import com.example.taskflow.domain.task.dto.TaskResponse;
+import com.example.taskflow.domain.task.dto.UpdateTaskRequest;
 import com.example.taskflow.domain.task.entity.Task;
 import com.example.taskflow.domain.task.repository.TaskRepository;
 import jakarta.transaction.Transactional;
@@ -34,5 +35,16 @@ public class TaskService {
                 .orElseThrow(()-> new RuntimeException());
 
         return new TaskResponse(null, task.getTitle(), task.getContent(), task.getStartDate(), task.getDueDate());
+    }
+
+    @Transactional
+    public TaskResponse updateTask(Long id, UpdateTaskRequest request) {
+
+        Task task = taskRepository.findById(id)
+                .orElseThrow(()-> new RuntimeException());
+
+        task.updateTask(request.getTitle(), request.getContent(), request.getStartDate(), request.getDueDate());
+
+        return new TaskResponse(task.getName(), task.getTitle(), task.getContent(), task.getStartDate(), task.getDueDate());
     }
 }

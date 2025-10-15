@@ -2,8 +2,8 @@ package com.example.taskflow.domain.task.controller;
 
 import com.example.taskflow.domain.task.dto.TaskRequest;
 import com.example.taskflow.domain.task.dto.TaskResponse;
+import com.example.taskflow.domain.task.dto.UpdateTaskRequest;
 import com.example.taskflow.domain.task.service.TaskService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,5 +24,10 @@ public class TaskController {
     @GetMapping("/task/{id}")
     public ResponseEntity<TaskResponse> getTask(@PathVariable Long id) {
         return ResponseEntity.ok(taskService.get(id));
+    }
+
+    @PutMapping("task/{id}")
+    public ResponseEntity<TaskResponse> updateTask(@PathVariable Long id, @RequestBody UpdateTaskRequest request) {
+        return ResponseEntity.ok(taskService.updateTask(id, request));
     }
 }
