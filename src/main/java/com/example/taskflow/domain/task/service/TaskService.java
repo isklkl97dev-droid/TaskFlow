@@ -47,4 +47,13 @@ public class TaskService {
 
         return new TaskResponse(task.getName(), task.getTitle(), task.getContent(), task.getStartDate(), task.getDueDate());
     }
+
+    @Transactional
+    public void deleteTask(Long id) {
+
+        Task task = taskRepository.findById(id)
+                .orElseThrow(()-> new RuntimeException());
+
+       taskRepository.delete(task);
+    }
 }
