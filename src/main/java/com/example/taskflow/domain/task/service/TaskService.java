@@ -9,6 +9,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class TaskService {
@@ -25,7 +27,7 @@ public class TaskService {
 
         Task saveTask = taskRepository.save(newTask);
 
-        return new TaskResponse(saveTask.getName(), saveTask.getTitle()
+        return new TaskResponse(saveTask.getId(), saveTask.getTitle()
                 , saveTask.getContent(), saveTask.getStartDate(), saveTask.getDueDate());
     }
 
@@ -34,7 +36,7 @@ public class TaskService {
         Task task = taskRepository.findById(id)
                 .orElseThrow(()-> new RuntimeException());
 
-        return new TaskResponse(null, task.getTitle(), task.getContent(), task.getStartDate(), task.getDueDate());
+        return new TaskResponse(task.getId(), task.getTitle(), task.getContent(), task.getStartDate(), task.getDueDate());
     }
 
     @Transactional
@@ -45,7 +47,7 @@ public class TaskService {
 
         task.updateTask(request.getTitle(), request.getContent(), request.getStartDate(), request.getDueDate());
 
-        return new TaskResponse(task.getName(), task.getTitle(), task.getContent(), task.getStartDate(), task.getDueDate());
+        return new TaskResponse(task.getId(), task.getTitle(), task.getContent(), task.getStartDate(), task.getDueDate());
     }
 
     @Transactional
@@ -55,5 +57,12 @@ public class TaskService {
                 .orElseThrow(()-> new RuntimeException());
 
        taskRepository.delete(task);
+    }
+
+    public List<TaskResponse> getList() {
+
+        return taskRepository.findAll().stream()
+                .map((task)-> new TaskResponse(task.getId(), task.getTitle(), task.getContent(), task.getStartDate(), task.getDueDate()))
+                .toList();
     }
 }
